@@ -1,0 +1,36 @@
+.sojo-blue
+{
+	color: rgb(32, 175, 215);
+	fill: rgb(32, 175, 215);
+}
+
+.sojo-orange
+{
+	color: rgb(244, 155, 52);
+	fill: rgb(244, 155, 52);
+}
+
+.sojo-green
+{
+	color: rgb(164, 199, 73);
+	fill: rgb(164, 199, 73);
+}
+
+.sojo-magenta
+{
+	color: rgb(216, 28, 119);
+	fill: rgb(216, 28, 119);
+}
+
+.sojo-black
+{
+	color: rgb(35, 31, 32);
+	fill: rgb(35, 31, 32);
+}
+
+.sojo-white
+{
+	color: white;
+	fill: white;
+}
+

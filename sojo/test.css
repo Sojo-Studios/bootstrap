@@ -1,0 +1,51 @@
+html
+{
+	height: 100%;
+	width: 100%;
+	background-color: #e3fafa;
+}
+
+body
+{
+	background-color: #e3fafa;
+}
+
+div#main-container
+{
+	background-color: #fafafa;
+	padding-top: 70px;
+	border-left: 1px solid #c4fafa;
+	border-right: 1px solid #c4fafa;
+}
+
+div.well.sojo-logo
+{
+	padding: 10px;
+	float: left;
+	width: 100%;
+	margin: 0;
+}
+
+div.sojo-logo > svg
+{
+	max-height: 175px;
+}
+
+div.slc
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+div.slc > p
+{
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+img#full-color
+{
+	
+}
+
