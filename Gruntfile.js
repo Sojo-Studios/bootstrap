@@ -1,4 +1,9 @@
-/* jshint node: true */
+/*!
+ * Bootstrap's Gruntfile
+ * http://getbootstrap.com
+ * Copyright 2013-2014 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
 
 module.exports = function (grunt) {
   'use strict';
@@ -15,6 +20,7 @@ module.exports = function (grunt) {
   var generateGlyphiconsData = require('./docs/grunt/bs-glyphicons-data-generator.js');
   var BsLessdocParser = require('./docs/grunt/bs-lessdoc-parser.js');
   var generateRawFilesJs = require('./docs/grunt/bs-raw-files-generator.js');
+  var updateShrinkwrap = require('./test-infra/shrinkwrap.js');
 
   // Project configuration.
   grunt.initConfig({
@@ -22,16 +28,10 @@ module.exports = function (grunt) {
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
     banner: '/*!\n' +
-              ' * Bootstrap v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
-              ' * Copyright 2011-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-              ' * Licensed under <%= _.pluck(pkg.licenses, "type") %> (<%= _.pluck(pkg.licenses, "url") %>)\n' +
-              ' */\n',
-    bannerDocs: '/*!\n' +
-              ' * Bootstrap Docs (<%= pkg.homepage %>)\n' +
-              ' * Copyright 2011-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-              ' * Licensed under the Creative Commons Attribution 3.0 Unported License. For\n' +
-              ' * details, see http://creativecommons.org/licenses/by/3.0/.\n' +
-              ' */\n',
+            ' * Bootstrap v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
+            ' * Copyright 2011-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+            ' * Licensed under <%= _.pluck(pkg.licenses, "type") %> (<%= _.pluck(pkg.licenses, "url") %>)\n' +
+            ' */\n',
     jqueryCheck: 'if (typeof jQuery === \'undefined\') { throw new Error(\'Bootstrap requires jQuery\') }\n\n',
 
     // Task configuration.
@@ -43,8 +43,8 @@ module.exports = function (grunt) {
       options: {
         jshintrc: 'js/.jshintrc'
       },
-      gruntfile: {
-        src: 'Gruntfile.js'
+      grunt: {
+        src: ['Gruntfile.js', 'docs/grunt/*.js', 'test-infra/shrinkwrap.js']
       },
       src: {
         src: 'js/*.js'
@@ -54,9 +54,6 @@ module.exports = function (grunt) {
       },
       assets: {
         src: ['docs/assets/js/application.js', 'docs/assets/js/customizer.js']
-      },
-      docsGrunt: {
-        src: 'docs/grunt/*.js'
       }
     },
 
@@ -64,8 +61,8 @@ module.exports = function (grunt) {
       options: {
         config: 'js/.jscs.json',
       },
-      gruntfile: {
-        src: 'Gruntfile.js'
+      grunt: {
+        src: ['Gruntfile.js', 'docs/grunt/*.js', 'test-infra/shrinkwrap.js']
       },
       src: {
         src: 'js/*.js'
@@ -75,9 +72,6 @@ module.exports = function (grunt) {
       },
       assets: {
         src: ['docs/assets/js/application.js', 'docs/assets/js/customizer.js']
-      },
-      docsGrunt: {
-        src: 'docs/grunt/*.js'
       }
     },
 
@@ -203,7 +197,7 @@ module.exports = function (grunt) {
           'docs/assets/css/docs.css',
           'docs/assets/css/pygments-manni.css'
         ],
-        dest: 'docs/assets/css/pack.min.css'
+        dest: 'docs/assets/css/docs.min.css'
       }
     },
 
@@ -218,7 +212,7 @@ module.exports = function (grunt) {
             'dist/css/<%= pkg.name %>.css',
             'dist/css/<%= pkg.name %>.min.css',
             'dist/css/<%= pkg.name %>-theme.css',
-            'dist/css/<%= pkg.name %>-theme.min.css',
+            'dist/css/<%= pkg.name %>-theme.min.css'
           ]
         }
       }
@@ -286,7 +280,8 @@ module.exports = function (grunt) {
           }
         },
         files: {
-          'docs/_includes/customizer-variables.html': 'docs/customizer-variables.jade'
+          'docs/_includes/customizer-variables.html': 'docs/customizer-variables.jade',
+          'docs/_includes/nav-customize.html': 'docs/customizer-nav.jade'
         }
       }
     },
@@ -342,6 +337,15 @@ module.exports = function (grunt) {
           browsers: grunt.file.readYAML('test-infra/sauce_browsers.yml')
         }
       }
+    },
+
+    exec: {
+      npmUpdate: {
+        command: 'npm update'
+      },
+      npmShrinkWrap: {
+        command: 'npm shrinkwrap --dev'
+      }
     }
   });
 
@@ -357,7 +361,7 @@ module.exports = function (grunt) {
   var testSubtasks = [];
   // Skip core tests if running a different subset of the test suite
   if (!process.env.TWBS_TEST || process.env.TWBS_TEST === 'core') {
-    testSubtasks = testSubtasks.concat(['dist-css', 'csslint', 'jshint', 'jscs', 'qunit', 'build-customizer-vars-form']);
+    testSubtasks = testSubtasks.concat(['dist-css', 'csslint', 'jshint', 'jscs', 'qunit', 'build-customizer-html']);
   }
   // Skip HTML validation if running a different subset of the test suite
   if (!process.env.TWBS_TEST || process.env.TWBS_TEST === 'validate-html') {
@@ -391,7 +395,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist', ['clean', 'dist-css', 'copy:fonts', 'dist-docs', 'dist-js']);
 
   // Default task.
-  grunt.registerTask('default', ['test', 'dist', 'build-glyphicons-data', 'build-customizer']);
+  grunt.registerTask('default', ['test', 'dist', 'build-glyphicons-data', 'build-customizer', 'update-shrinkwrap']);
 
   // Version numbering task.
   // grunt change-version-number --oldver=A.B.C --newver=X.Y.Z
@@ -401,10 +405,14 @@ module.exports = function (grunt) {
   grunt.registerTask('build-glyphicons-data', generateGlyphiconsData);
 
   // task for building customizer
-  grunt.registerTask('build-customizer', ['build-customizer-vars-form', 'build-raw-files']);
-  grunt.registerTask('build-customizer-vars-form', 'jade');
+  grunt.registerTask('build-customizer', ['build-customizer-html', 'build-raw-files']);
+  grunt.registerTask('build-customizer-html', 'jade');
   grunt.registerTask('build-raw-files', 'Add scripts/less files to customizer.', function () {
     var banner = grunt.template.process('<%= banner %>');
     generateRawFilesJs(banner);
   });
+
+  // Task for updating the npm packages used by the Travis build.
+  grunt.registerTask('update-shrinkwrap', ['exec:npmUpdate', 'exec:npmShrinkWrap', '_update-shrinkwrap']);
+  grunt.registerTask('_update-shrinkwrap', function () { updateShrinkwrap.call(this, grunt); });
 };

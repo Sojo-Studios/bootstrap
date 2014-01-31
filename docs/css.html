@@ -355,7 +355,7 @@ lead: "Global CSS settings, fundamental HTML elements styled and enhanced with e
   <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
 </div>
 {% endhighlight %}
-  <p>In addition to column clearing at responsive breakpoints, you may need to <strong>reset offsets, pushes, or pulls</strong>. Those resets are available for medium and large grid tiers only, since they start only at the (second) small grid tier. See this in action in <a href="../examples/grid/">the grid example</a>.</p>
+  <p>In addition to column clearing at responsive breakpoints, you may need to <strong>reset offsets, pushes, or pulls</strong>. See this in action in <a href="../examples/grid/">the grid example</a>.</p>
 {% highlight html %}
 <div class="row">
   <div class="col-sm-5 col-md-6">.col-sm-5 .col-md-6</div>
@@ -2989,7 +2989,8 @@ a {
 {% endhighlight %}
 
   <h3 id="less-mixins-box-shadow">Box (Drop) shadows</h3>
-  <p>If your target audience is using the latest and greatest browsers and devices, be sure to just use the <code>box-shadow</code> property on its own. If you need support for older Android (pre-v4) and iOS devices (pre-iOS 5), use the mixin to pick up the required <code>-webkit</code> prefix.</p>
+  <p>If your target audience is using the latest and greatest browsers and devices, be sure to just use the <code>box-shadow</code> property on its own. If you need support for older Android (pre-v4) and iOS devices (pre-iOS 5), use the <strong>deprecated</strong> mixin to pick up the required <code>-webkit</code> prefix.</p>
+  <p>The mixin is <strong>deprecated</strong> as of v3.1.0, since Bootstrap doesn't officially support the outdated platforms that don't support the standard property. To preserve backwards-compatibility, Bootstrap will continue to use the mixin internally until Bootstrap v4.</p>
   <p>Be sure to use <code>rgba()</code> colors in your box shadows so they blend as seamlessly as possible with backgrounds.</p>
 {% highlight css %}
 .box-shadow(@shadow: 0 1px 3px rgba(0,0,0,.25)) {
@@ -3282,7 +3283,7 @@ a {
 
 // Usage
 .jumbotron {
-  .retina-image("/img/bg-1x.png", "/img/bg-2x.png", 100px, 100px);
+  .img-retina("/img/bg-1x.png", "/img/bg-2x.png", 100px, 100px);
 }
 {% endhighlight %}
 </div>
