@@ -1,21 +1,18 @@
-html
+html, body
 {
-	height: 100%;
-	width: 100%;
-	background-color: #e3fafa;
+    width: 100%;
+    height: 100%;
 }
 
 body
 {
-	background-color: #e3fafa;
+    background-image: url(../images/bg-linen-d.jpg);
 }
 
 div#main-container
 {
-	background-color: #fafafa;
 	padding-top: 70px;
-	border-left: 1px solid #c4fafa;
-	border-right: 1px solid #c4fafa;
+    background-color: white;
 }
 
 div.well.sojo-logo
@@ -42,10 +39,5 @@ div.slc > p
 	margin: 0;
 	padding: 0;
 	float: left;
-}
-
-img#full-color
-{
-	
 }
 

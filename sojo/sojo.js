@@ -61,8 +61,8 @@ Sojo.prototype.init = function()
   }
 
   // Append SVG data, if something needs it
-  $('.sojo-logo').append(window['sojo-logo']);
-  $('.sojo-oh').append(window['sojo-oh']);
+  $('div.sojo-logo').append(window['sojo-logo']);
+  $('div.sojo-oh').append(window['sojo-oh']);
 
   console.timeEnd(this.initializationTimerName);
   return true;
