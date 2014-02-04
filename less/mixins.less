@@ -500,18 +500,19 @@
 // and disabled options for all buttons
 .button-variant(@color) {
   color: @color;
-  background-color: #ffffff;
-  border-color: darken(@color, 15%);
+  background-color: white;
+  border-color: @color;
 
   &:hover,
   &:focus,
   &:active,
   &.active,
   .open .dropdown-toggle& {
-               color: lighten(@color, 80%);
+    color: white;
     background-color: @color;
-        border-color: darken(@color, 27%);
+    border-color: @color;
   }
+
   &:active,
   &.active,
   .open .dropdown-toggle& {
@@ -525,10 +526,11 @@
     &:focus,
     &:active,
     &.active {
-                 color: lighten(@color, 30%);
-      background-color: lighten(@color, 80%);
-          border-color: lighten(@color, 10%);
+                 color: lighten(@color, 20%);
+      background-color: white;
+          border-color: lighten(@color, 20%);
     }
+
   }
 
   .badge {
