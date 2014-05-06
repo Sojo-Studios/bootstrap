@@ -995,9 +995,10 @@ h6,
 .h5,
 .h6 {
   font-family: inherit;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.1;
   color: inherit;
+  letter-spacing: 0;
 }
 h1 small,
 h2 small,
@@ -6140,7 +6141,7 @@ a.navbar-brand {
 a.navbar-brand div {
   width: 100px;
   height: 61px;
-  margin-top: -6px;
+  margin-top: -5px;
 }
 .navbar-default .navbar-nav > li > a {
   font-size: 18px;
